@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="initial-scale=1.0, width=device-width, user-scalable=yes">
+		
+			<meta name="color-scheme" content="dark">
+		
+            <script defer src="//unpkg.com/mathlive"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='jquery-1.7.2.min.js') }}"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='tooltipster.bundle.js') }}"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='tooltips.js') }}"></script>
+            
+            <link href="{{ url_for('static', filename='mathquill.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ url_for('static', filename='global.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ url_for('static', filename='mobile_steps.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ url_for('static', filename='mobile_solution_page.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ url_for('static', filename='katex.min.css') }}" rel="stylesheet">
+            
+            <script type="text/javascript" src="{{ url_for('static', filename='mathquill.js') }}"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='general.js') }}"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='application.js') }}"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='graph_settings.js') }}"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='mobile_steps.js') }}"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='grapher.js') }}"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='mobile_number_line.js') }}"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='katex.min.js') }}"></script>
+            <script type="text/javascript" src="{{ url_for('static', filename='auto-render.min.js') }}"></script>
+
+		<style type="text/css">
+			
+
+		.mathquill-editable.empty:after, .mathquill-textbox:after, .mathquill-rendered-math .empty:after {
+			line-height: 16px;
+			padding: 0px 1px;
+		}
+		/*separated from above because unrecognized pseudoclasses invalidate the entire selector*/
+		.mathquill-editable .cursor:only-child:after,
+		.mathquill-editable .textarea+.cursor:last-child:after,
+		.mathquill-editable .overline+.cursor:last-child:after,
+		.mathquill-editable .diacritic-char+.cursor:last-child:after {
+			line-height: 16px;
+			padding: 0px 1px;
+		}
+
+        html,
+		body {
+		   margin:0;
+		   padding:0;
+		   height:100%;
+		}
+
+        body {
+            background-color: #ddd7ce;
+        }
+
+        html {
+        	/* solves flicker when selecting items on mobile */
+            -webkit-tap-highlight-color: rgba(201, 224, 253, 0.0);
+        }
+
+        .hide {
+            display: none;
+        }
+
+        #show-hide-steps-div{
+        	height: 16px;
+			visibility: hidden;
+        }
+
+		h2 {
+			color: #f40000;
+			font-size: 48px;
+			font-style: normal;
+			font-weight: 1000;
+			margin-bottom: -9px;
+			margin-left: 30px;
+		}
+
+        #mathquill_query_container .mathquill-embedded-latex{
+            display: inline-block;
+        }
+
+        #mathquill_query_container .solution_outside_box, .dym{
+        	border: 1px solid white;
+        }
+
+        .new_solution_box_title h2 {
+            color: #f40000;
+        }
+
+        h2 {
+        	margin: 25px;
+        }
+
+        /*.solution_step_title, .solution_step_result, .solution_step_explanation, .solution_step_rule{
+            width: 92%;
+        }*/
+
+
+        .mathquill-embedded-latex .selectable{
+            display: none;
+        }
+
+        .mathquill-rendered-math span, .mathquill-rendered-math var {
+            display: inline-block;
+        }
+
+        .Solution .solution {
+            min-height: 40px;
+        }
+
+        #noSolutionContainer {
+            padding: 10px 0px 10px 0px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        #noSolutionContainer #messageText {
+            margin-left: 5px;
+        }
+
+        #noSolutionContainer #messageText * {
+            font-size: 14px;
+        }
+
+        .upgradeMessageDiv{
+        	padding: 10px;
+        	line-height: 20px;
+            border-radius: 5px;
+        }
+
+        .upgradeButton{
+        	font-size: 15px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			margin-left: 38%;
+        }
+
+		#ApplicationLogo{
+			text-align: center;
+			width: 100%;
+			margin-top: 10px;
+		}
+
+		.promo{
+			font-size: 13px;
+			padding: 10px;
+		}
+
+		.promoButton{
+			-webkit-border-radius: 3px;
+			background-color: #e02342;
+			border: none;
+			color: white;
+			font-weight: bold;
+			cursor: pointer;
+			height: 24px;
+		}
+
+		section {
+          	margin-left: 10px;
+        }
+
+        #container {
+		   min-height: 100%;
+		   position: relative;
+		}
+
+		#solutionContent {
+			padding-bottom: 90px;
+		}
+
+        #feedback_container {
+        	height: 90px;
+        	position: absolute;
+ 			bottom: 0px;
+        }
+
+        .button_box {
+        	text-align: center;
+			vertical-align: middle;
+			height: 50px;
+			font-size: 12pt;
+			line-height: 50px;
+			margin-top: 20px;
+			border: none;
+			color: #06bcfb;
+        }
+
+	.showStepsButton{
+		content:url(show_more.png);
+	}
+
+	.hideStepsButton{
+		content:url(show_less.png);
+	}
+
+	.locked-step {
+		background-image: url(lock-mobile.png);
+		background-size: 12px;
+		background-position: center;
+		background-repeat: no-repeat;
+		display: inline;
+		vertical-align: middle;
+		width: 12px;
+		height: 12px;
+		content:"";
+	}
+
+	.locked_solution {
+		padding-right: 5px;
+		margin-right: 10px;
+		margin-bottom: 0px;
+		padding-bottom: 0px;
+		background-image: url(lock-mobile.png);
+		background-repeat: no-repeat;
+		background-size: 12px;
+		background-position: right top;
+	}
+
+	.lockedOption {
+		background-image: url(lock-mobile.png);
+	    background-repeat: no-repeat;
+	    background-size: 12px;
+	    background-position: 90% center;
+    }
+
+    #clear-textfield {
+        background-image: url('TextfieldClearBtn_Android.png');
+        background-repeat: no-repeat;
+        background-size: 20px;
+        background-position: center center;
+
+        width: 30px;
+        height: 30px;
+    }
+
+    #clear-textfield.lockedVerify {
+		
+        background-image: url("{{ url_for('static', filename='lock-mobile.png') }}");
+        background-size: 12px;
+    }
+
+    #clear-textfield:not(.lockedVerify):active {
+    	filter: grayscale(80%);
+    	-webkit-filter: grayscale(80%);
+    }
+
+.nl-questionFavorite {
+    width: 20px;
+    height: 20px;
+    filter: opacity(30%) grayscale(100%);
+    -webkit-filter: opacity(30%) grayscale(100%);
+	
+    background-image: url("{{ url_for('static', filename='save-enabled.png') }}");
+    background-size: 20px;
+
+    position: absolute;
+    right: 20px;
+    top: 15px;
+}
+
+.edit-question {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 40px;
+    top: 15px;
+}
+
+.edit-question svg {
+	width: 20px;
+	height: 20px;
+}
+
+.nl-questionFavorite.nl-questionFavoriteSaved {
+    filter: opacity(100%) grayscale(0%);
+    -webkit-filter: opacity(100%) grayscale(0%);
+    cursor: pointer;
+}
+
+.nl-favorite-msg{
+	text-align: center;
+	font-size: 13px;
+	color: #7A8503;
+}
+
+.nl-favorite-msg.error {
+	color: #E02342;
+}
+
+.dym, .viewLargerPlot {
+  margin: 10px 0px;
+  padding: 5px 10px;
+
+  overflow-x: scroll;
+  overflow-y: hidden;
+  position: relative;
+}
+
+.dym * {
+	white-space: pre!important;
+}
+
+.dymRight .dymText, .dymRight .dymQuery, .viewLargerPlot {
+  color: #21c0ee !important;
+}
+
+.dym a, .viewLargerPlot {
+  white-space: nowrap;
+  position: relative;
+}
+
+.viewLargerPlotContainer {
+	margin-top: 10px;
+}
+
+.newSelect .arrows {
+	background: url("{{ url_for('static', filename='down-arrow.svg') }}");
+	background-size: 32px 26px;
+}
+
+	.newSelect .arrows.locked {
+		background-image: url("{{ url_for('static', filename='lock-mobile.png') }}");
+	    background-repeat: no-repeat;
+	    background-size: 12px;
+	    background-position: 90% center;
+    }
+
+.mathquill-input.mathquill-editable {
+	border-radius: 6px;
+}
+
+span.hintText {
+	color: #214B4B;
+	font-size: initial;
+	font-weight: lighter;
+}
+
+span.hintText.bold {
+	font-weight: normal;
+}
+
+ul {
+	padding: 0px;
+}
+
+.syscrollable {
+	/* this solves incorrect behavior of scrollbars when something is overlaying it */
+	-webkit-transform: translate3d(0, 0, 0)
+}
+
+
+.next-step-button::after {
+	content: "\276F";
+}
+
+.mathquill-editable textarea {
+    		display: none;
+    	}
+
+* {
+	-webkit-user-select: none;
+	-webkit-touch-callout: none;
+}
+
+
+#numberLine {
+    margin-top: 15px;
+}
+
+
+
+#EnterText {
+	position: absolute;
+	top: 15px;
+	color: #A6A4A4;
+	vertical-align: middle;
+	padding: 18px 15px;
+	pointer-events:none;
+}
+
+#input_container {
+	position: relative;
+}
+
+a.solution-practice-link {
+	position: relative;
+	display: inline-block;
+	margin-top: 5px;
+	margin-bottom: 15px;
+	padding-left: 5px;
+	color: #21c0ee;
+	text-decoration: none;
+}
+
+.nl-practice-sprite-hintIcon-small::after {
+	background-image: url(note_mobile_practice_blue.png);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: contain;
+
+	content: '';
+	position: absolute;
+	top: -5px;
+	right: -30px;
+
+	width: 25px;
+	height: 25px;
+}
+
+#related .new_solution_box_title h2.title-link {
+	display: inline-block;
+}
+
+#relatedList svg {
+	width: 15px;
+	height: 15px;
+	vertical-align: middle;
+}
+
+#related .new_solution_box_title {
+	position: relative;
+	float: none !important;
+}
+
+#related .new_solution_box_title::after {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzA2YmNmYiIgZD0iTTcgMTBsNSA1IDUtNXoiLz48cGF0aCBkPSJNMCAwaDI0djI0SDB6IiBmaWxsPSJub25lIi8+PC9zdmc+");
+    background-size: 25px 25px;
+
+    vertical-align: middle;
+    display: inline-block;
+
+    width: 25px;
+    height: 25px;
+
+    content:"";
+}
+
+#related.collapsed .new_solution_box_title::after {
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzA2YmNmYiIgZD0iTTEwIDE3bDUtNS01LTV2MTB6Ii8+PHBhdGggZmlsbD0ibm9uZSIgZD0iTTAgMjRWMGgyNHYyNEgweiIvPjwvc3ZnPg==");
+}
+
+#related.collapsed #relatedBox {
+	display: none;
+}
+
+#related.collapsed .new_solution_box_title {
+
+}
+
+#playStopGifBtn, .playStopGifBtn {
+    width: 35px;
+    height: 26px;
+    border-radius: 2px;
+    z-index: 1;
+    filter: invert(25%);
+    margin-top: 12px;
+    position: absolute;
+    cursor: pointer;
+}
+
+#playStopGifBtn.replay, .playStopGifBtn.replay {
+     background-image: url("replay_24px.svg");
+     width: 24px;
+     height: 24px;
+     margin-left: 6px;
+}
+
+#playStopGifBtn.play_icon,  .playStopGifBtn.play_icon {
+       background-image: url('sprite_practice.png');
+       background-position: -115px -5px;
+       transform: scale(0.7);
+       margin-left: 5px;
+}
+
+.playStopGifBtn:not(#playStopGifBtn) {
+	margin-left: 0 !important;
+	margin-top: -8px!important;
+}
+
+.playStopGifBtn.replay:not(#playStopGifBtn) {
+	margin-left: 1px !important;
+}
+
+.empty_number_line_img {
+	min-height: 20px;
+}
+
+.instepImage {
+	margin-top: 10px !important;
+}
+
+.slItem {
+	color: black;
+}
+
+#verify-input > * {
+	color: black;
+	min-height: 14px;
+}
+
+	 #verify-camera-button {
+        background-image: url('camera.png');
+        background-repeat: no-repeat;
+
+        
+        
+					background-size: 25px;
+		
+
+        background-position: center center;
+		float: right;
+		right : 10px;
+		position: relative;
+        width: 30px;
+        height: 30px;
+        margin-top: -35px;
+        filter: invert(54%) sepia(62%) saturate(2609%) hue-rotate(162deg) brightness(105%) contrast(97%);
+        -webkit-filter: invert(54%) sepia(62%) saturate(2609%) hue-rotate(162deg) brightness(105%) contrast(97%);
+
+    }
+
+    	.verify-hidden {
+            display: none!important;
+    }
+
+@media (prefers-color-scheme: dark) {
+	html {
+		filter: invert(100%);
+	}
+
+	.edit-question svg {
+		filter: invert(100%);
+	}
+
+	.solution_box {
+		color: #393E46;
+	}
+
+	.nl-questionFavorite {
+		filter: opacity(85%) grayscale(100%) invert(0%);
+	}
+
+	.nl-questionFavorite.nl-questionFavoriteSaved {
+		filter: opacity(100%) grayscale(0%) invert(100%);
+	}
+
+	hr {
+		border-color: #999!important;
+	}
+
+	.solution_title_container {
+		background-color: #bbb;
+	}
+
+	.solution_inside_box {
+		background-color: #bbb;
+		border-color: #bbb;
+	}
+
+	.solution_step_list_item {
+		color: #555!important;
+	}
+
+	#EnterText {
+		color: #636363;
+	}
+
+
+	#clear-textfield, .nl-answerCaption {
+		filter: invert(100%);
+	}
+
+	#feedback_container {
+		filter: invert(100%);
+	}
+
+	.viewLargerPlot, .solution-practice-link {
+		filter: invert(100%);
+	}
+
+	.nl-favorite-msg {
+		filter: invert(100%);
+	}
+
+	.show-hide-steps-div > div > div {
+		filter: invert(100%);
+	}
+}
+
+    .math-field {
+        background-color: #393E46;
+        color: white;
+    }
+
+@media not (pointer: coarse) {
+    math-field::part(virtual-keyboard-toggle) {
+        display: none;
+    }
+}
+
+</style>
+		<!-- override -->
+
+	</head>
+
+	<body>
+
+	<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+		<symbol id="pencil-green-img" viewBox="0 0 12 12">
+			<path fill="#06bcfb" fill-rule="nonzero" d="M10.593 2.367L9.6 1.373c-.497-.497-1.401-.497-1.898 0L1.554 7.52c-.045.045-.045.09-.09.135v.091l-.452 2.712c-.045.135.045.27.136.406.045.09.135.136.27.136h.091l2.712-.452h.09c.045 0 .09-.045.136-.09l6.146-6.192c.543-.498.543-1.402 0-1.899zM8.198 5.395L6.57 3.768l1.04-1.04 1.626 1.628-1.04 1.04z"></path>
+		</symbol>
+
+		<symbol id="solutions-img" viewBox="0 0 24 24">
+			<g fill="#06bcfb" fill-rule="nonzero">
+				<path d="M9.8 19.2a9 9 0 1 1 0-18 9 9 0 0 1 0 18zm0-2a7 7 0 1 0 0-14 7 7 0 0 0 0 14z"></path>
+				<path d="M15.593 16.407a1 1 0 0 1 1.414-1.414l6 6a1 1 0 0 1-1.414 1.414l-6-6z"></path>
+			</g>
+		</symbol>
+	</svg>
+	<div style="margin: 30px;">
+		<a href="/">
+		<button style="background-color: #ff524a; color: #ddd7ce; border: none; border-radius: 20px; padding: 10px 20px; font-size: 16px; cursor: pointer;">Back</button>
+		</a>
+	</div>
+	<div id="container">
+
+	<div id="solutionContent">
+
+
+
+        <section id="mathquill_query_container">
+            <div class="solution_box solution_outside_box" style="padding : 12px;">
+				<div class="solutionScrollableContainer" style="width: calc(100% - 58px);">
+					<div class="solution_scrollable" >
+            			<span id="mathquillQueryInput" class="mathquill-embedded-latex" title="problem">
+							
+						</span>
+					</div>
+				</div>
+            </div>
+        </section>
+
+		<section id="noSolutionSection" class="hide">
+            <div class="solution_box solution_outside_box">
+            	<div id="noSolutionContainer">
+                	<span id="messageText" class="mathquill-embedded-latex"></span>
+                </div>
+            </div>
+        </section>
+
+        <section id="dym" class="hide"><div class="solution_box solution_outside_box dym" ></div></section>
+        <section id="multipleSolutions"></section>
+
+        <section id="verify-section">
+        </section>
+        
+        <section>
+            yeah I simply copied symoblab's way of presenting the steps, but had to changed somethings to suite the limitations.
+        </section>
+
+
+	</div>
+
+ </div>
+
+		<script type="text/javascript">
+            document.addEventListener('DOMContentLoaded', function() {
+                // Function to remove the element with id "practice-link-container"
+                function removePracticeLinkContainer() {
+                    var practiceLinkContainer = document.getElementById('practice-link-container');
+                    if (practiceLinkContainer) {
+                        practiceLinkContainer.remove();
+                    }
+                }
+            
+                // Call the function to remove the element
+                removePracticeLinkContainer();
+            });
+// Function to be called when the desired element is added to the DOM
+// Function to be called when the desired element is added to the DOM
+function onElementAdded(callback) {
+    const observer = new MutationObserver(mutationsList => {
+        for (const mutation of mutationsList) {
+            if (mutation.type === 'childList') {
+                mutation.addedNodes.forEach(node => {
+                    if (node.nodeType === Node.ELEMENT_NODE && hasNumberAndLine(node)) {
+                        callback(node);
+                    }
+                });
+            }
+        }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+}
+
+// Function to check if the element contains both "Number" and "Line" texts
+function hasNumberAndLine(element) {
+    // Check if the element contains both "Number" and "Line" texts
+    const textContent = element.textContent || element.innerText;
+    return textContent.includes('Number') && textContent.includes('Line');
+}
+
+// Example usage
+onElementAdded(element => {
+    // Perform actions when element with "Number" and "Line" is added
+    // Function to check if the element contains both "Number" and "Line" texts
+function hasNumberAndLine(element) {
+    // Check if the element contains both "Number" and "Line" texts
+    const textContent = element.textContent || element.innerText;
+    return textContent.includes('Number') && textContent.includes('Line');
+}
+
+// Function to remove elements containing "Number" and "Line" from the list
+function removeElementsWithNumberAndLine() {
+    const listItems = document.querySelectorAll('.solution_step_list_item');
+    listItems.forEach(item => {
+        if (hasNumberAndLine(item)) {
+            item.remove();
+        }
+    });
+}
+
+// Call the function to remove elements with "Number" and "Line" from the list
+removeElementsWithNumberAndLine();
+
+	
+    // Run your other commands here
+})
+
+
+// Example usage
+onElementAdded(element => {
+    // Perform actions when element with "Number" and "Line" is added
+    // Function to check if the element contains both "Number" and "Line" texts
+function hasNumberAndLine(element) {
+    // Check if the element contains both "Number" and "Line" texts
+    const textContent = element.textContent || element.innerText;
+    return textContent.includes('Multiplication') && textContent.includes('Table');
+}
+
+// Function to remove elements containing "Number" and "Line" from the list
+function removeElementsWithMultiplication() {
+    const listItems = document.querySelectorAll('.solution_step_list_item');
+    listItems.forEach(item => {
+        if (hasNumberAndLine(item)) {
+            item.remove();
+        }
+    });
+}
+
+// Call the function to remove elements with "Number" and "Line" from the list
+removeElementsWithMultiplication();
+
+	
+    // Run your other commands here
+})
+
+// Function to remove elements based on text content
+function removeElementsByTextContent() {
+    // Select all elements with class "solution_step_list_item"
+    var items = document.querySelectorAll('.solution_step_list_item');
+
+    // Iterate over the selected elements
+    items.forEach(function(item) {
+        // Select the element with class "solution_step_title_text"
+        var titleText = item.querySelector('.solution_step_title_text');
+
+        // Check if the text content of the element contains "Multiplication" and "Table"
+        if (titleText && titleText.textContent.includes('Multiplication') && titleText.textContent.includes('Table')) {
+            // Remove the element from the DOM
+            item.remove();
+        }
+    });
+}
+
+// Call the function to remove elements based on text content after the dynamic content is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    removeElementsByTextContent();
+});
+
+
+//OVERRIDE with bugfix for scroll
+function getWidth(element, isRomanToo){
+	var width = 0;
+
+	if (element.hasClass("block")){
+		element.children().each(function() {
+			width += getWidth($(this), isRomanToo);
+		});
+	}
+	else if (element.hasClass("roman")){
+		if (isRomanToo){
+			element.children().each(function() {
+				width += $(this).outerWidth();
+			});
+		}
+
+	}
+	else{
+		width = element.outerWidth();
+	}
+
+	return width;
+}
+
+		function iosCallback(url)
+	    {
+			var iframe = document.createElement("IFRAME");
+			iframe.setAttribute("src", url);
+			document.documentElement.appendChild(iframe);
+			iframe.parentNode.removeChild(iframe);
+			iframe = null;
+	    }
+
+		console.log = function(action, info1, info2, async) {
+			
+        		//.log(action, info1, info2);
+    		
+    		
+
+    		return $.Deferred().resolve();
+		}
+
+		var query = "";
+		var license = "";
+		var connected = "";
+        var isMobileRendering = true;
+        var mobileWeb = false;
+		var SYSTEPS = new ApplicationSteps();
+
+
+		function fetchSolutionData() {
+			fetch('/getsolution')
+				.then(response => {
+					if (!response.ok) {
+						throw new Error('Network response was not ok');
+					}
+					return response.json();
+				})
+				.then(data => {
+					// Parse JSON response and store it in a variable
+					SYSTEPS.stepsRes = data;
+					const spanElement = document.getElementById('mathquillQueryInput');
+                    
+					// Check if the element exists
+					if (spanElement) {
+						// Add text inside the span element
+						var mathField = document.createElement('math-field');
+                        mathField.textContent = data.dym.inputEquation;
+						spanElement.style.fontSize = '32px'; // Change the font size as needed
+    					spanElement.style.fontWeight = 'bold'; 
+                        spanElement.appendChild(mathField);
+					}
+					readStepsResponse();
+					createSteps(data);
+					document.getElementsByClassName('slItem')[1].click();
+				});
+		}
+		
+
+        function readStepsResponse( width, fontSize, ) {
+			
+			//setWidth(width, fontSize);
+
+        	$("#related").toggleClass("collapsed", true);
+
+        }
+
+
+        function hasInterimStep(step) {
+        	if(step.isInterimStep) {
+        		return true;
+        	}
+
+        	if(step.steps && step.steps.length > 0) {
+        		return step.steps.some(function(subStep) {
+        			return hasInterimStep(subStep);
+        		});
+        	}
+
+        	return false;
+        }
+
+
+        function setWidth(width, fontSize) {
+
+        	
+        	
+        		width -= 20;
+        	
+
+        	var graph_width = "" + (width-2) + "px";
+
+        	$("canvas#sy_graph").css({
+        		width: graph_width,
+        		height: graph_width
+        	});
+
+        	$("canvas#nl_graph").css({
+        		width: graph_width,
+        		height: "50px"
+        	});
+
+        	var fontSizeStyleText =
+        		" section { width: " + width + "px; } " +
+        		" #verify-section #verify-input { width: " + (width - 22) + "px; } " +
+        		" .solutionHints { width: " + (width - 20) + "px; } " +
+        		" .stepByStepInput { width: " + (width - 20 - 25) + "px; } " +
+        		" .mathquill-rendered-math, .mathquill-rendered-math *, .show-hide-button, .show-hide-button:hover, .showButtonText, .hideButtonText " +
+        		" { font-size: " + fontSize +  "px !important; } " +
+        		" #mathquillQueryInput * " +
+        		" { font-size: " + (fontSize + 5) +  "px !important; } " +
+        		" #verify-input.mathquill-rendered-math * " +
+        		" { font-size: " + fontSize*1.2 +  "px !important; } " +
+        		" .mathquill-rendered-math big { font-size: " + fontSize*1.25 +  "px !important; } ";
+
+        	var fontSizeStyle = $("<style>" + fontSizeStyleText + "</style>");
+        	$('html > head').append(fontSizeStyle);
+        }
+
+        function makeButton(text, location) {
+			return $("<span></span>").
+						text((text)).
+						addClass("nl-favorite-button").
+						click(function() {
+							
+		        				//AndroidFunction.button(location);
+		        			
+		        			
+						});
+        }
+
+
+        function createSteps(res) {
+			$("#mathquillQueryInput").mathquill("write", query, 0);
+
+            if(res == undefined){
+                $("#noSolutionSection").css("display", "block");
+                $(".nl-questionFavorite").hide();
+                $("#messageText").mathquill("write", ("\\mathrm{No\\:steps\\:are\\:available\\:for\\:this\\:problem}"), 0);
+                return;
+            }
+
+            // close all solutions
+            if (res.solutions){
+            	for (var idx in res.solutions) {
+            		if (res.solutions[idx] == null) continue;
+            		res.solutions[idx].isOpen = false;
+        		}
+            }
+
+            SYSTEPS.writeSteps(res);
+			SYSTEPS.writeChAnswer(res);
+
+			$('.slItem').removeClass("lockedOption");
+			$('#cl').removeClass("lockedOption");
+		}
+
+		function showConnectionError() {
+			$("#noSolutionSection").css("display", "block");
+			$("#messageText").mathquill("write", ("\\mathrm{Connection\\:error,\\:please\\:try\\:again}"), 0);
+			$("#mathquill_query_container").hide();
+			$(".nl-questionFavorite").hide();
+		}
+
+		function hideOverlay() {
+
+		}
+
+		function removeShowStepsWhereApplicable(res){
+			if (data.solutions && data.solutions.length == 1 && data.solutions[0]){
+				if (data.solutions[0].steps && data.solutions[0].steps.length == 1 && !data.solutions[0].steps[0].steps){
+					$("#show-hide-steps-div").hide();
+				}
+            }
+		}
+
+
+
+		function receiveNewSteps(steps, stepsSettings) {
+			SYSTEPS.receiveNewSteps(steps, false, stepsSettings);
+		}
+
+		var closures = [];
+    	var running = false;
+
+    	function runQueue() {
+    		if(!running) {
+    			running = true;
+
+    			var closure;
+    			while(closure = closures.shift()) {
+    				closure();
+    			}
+
+				var empty = $("#verify-input").mathquill("latex") === "";
+
+    			running = false;
+    		}
+    	}
+
+    	function runQueueWithTimeout() {
+    		setTimeout(function(){runQueue();}, 0);
+    	}
+
+		function clearTextfield() {
+
+			closures.push(function() {
+				$("#verify-input").mathquill("latex", "");
+				calculateTextfieldSize();
+			});
+
+			verificationResult(null);
+
+			runQueueWithTimeout();
+		}
+
+		function addToInput(str, moveback, isFromPad) {
+			closures.push(function() {
+				internalAddToInput(str, moveback, isFromPad, false);
+			});
+
+			verificationResult(null);
+			runQueueWithTimeout();
+		}
+
+		function internalAddToInput(str, moveback, isFromPad, replaceContents) {
+			var newStr;
+
+			if (str == '%'){
+				newStr = '%';
+			}
+			else{
+				str = str.replace(/\\%/g, "%25"); // fix percents examples in adroid that come in as 10\%\:of....
+				newStr = decodeURIComponent(str);
+			}
+
+			// in some devices input is being sent as \\frac instead of \frac, because \\ is a legal char sequence  in matrices
+			// we need to take care of it in a special case, this is how:
+			if (newStr.indexOf("\\\\begin{pmatrix}") >= 0 || newStr.indexOf("\\\\begin{cases}") >= 0) {
+				newStr = newStr.replace(/\\\\/g, "\\");
+			}
+			else if (newStr.indexOf("\\begin{pmatrix}") < 0 && newStr.indexOf("\\begin{cases}") < 0){
+				newStr = newStr.replace(/\\\\/g, "\\");
+			}
+
+			if (newStr.indexOf('\\{') >= 0){
+				newStr = newStr.replace(/\{\\space\}/g, "\\space");
+				newStr = newStr.replace(/\\left\s*\\\{/g, "\\{");
+				newStr = newStr.replace(/\\\{/g, "\\left\\{");
+				newStr = newStr.replace(/\\right\s*\\\}/g, "\\}");
+				newStr = newStr.replace(/\\\}/g, "\\right\\}");
+				newStr = newStr.replace(/\\space}/g, "{\\space}");
+			}
+
+			if(replaceContents) {
+				$("#verify-input").mathquill("latex", newStr, moveback);
+			} else {
+				$("#verify-input").mathquill("write", newStr, moveback);
+			}
+
+			$("#verify-input").focus();
+			calculateTextfieldSize();
+		}
+
+		function revert() {
+			closures.push(function() {
+				$("#verify-input").mathquill("backspace");
+				calculateTextfieldSize();
+			});
+
+			verificationResult(null);
+
+			runQueueWithTimeout();
+		}
+
+		function moveLeft(){
+			closures.push(function() {
+				$("#verify-input").mathquill("moveleft");
+			});
+
+			runQueueWithTimeout();
+		}
+
+		function moveRight(){
+			closures.push(function() {
+				$("#verify-input").mathquill("moveright");
+			});
+
+			runQueueWithTimeout();
+		}
+
+		function newLine() {
+			closures.push(function() {
+				newLineClosure();
+			});
+
+			runQueueWithTimeout();
+		}
+
+		function newLineClosure() {
+			var existing = $("#verify-input").mathquill('latex');
+
+			var newLatex, moveback = 0;
+
+			var isFunction;
+			// match f(x)= , y=
+			if(existing.match(/^\s*[fy][\s\w\\()]*=/i)) {
+				isFunction = true;
+			} else {
+				isFunction = false;
+			}
+
+			if(existing.indexOf("\\begin{cases}") >= 0) {
+				// we already have a cases environment
+				var match = existing.match(/(.*?)(\\begin{cases}.+?)(\\end{cases}.*)/i);
+				if(match) {
+
+					var newLine;
+					if(isFunction) {
+						newLine = " \\\\ & ";
+					} else {
+						newLine = " \\\\ ";
+					}
+
+					// adds new line to cases, include everything that was before as well
+					newLatex = match[1] + match[2] + newLine + match[3];
+					// moves cursor to last case in list
+					if(isFunction) {
+						moveback = 2;
+					} else {
+						moveback = 1;
+					}
+				} else {
+					newLatex = existing;
+				}
+			} else {
+				// no cases yet, so we add a new one
+				if(isFunction) {
+
+					console.log("Pad", "NewlineType", "Function");
+
+					newLatex = existing + " \\begin{cases} & \\\\ & \\end{cases}";
+					// move cursor to first prompt of first line (because it is a new block)
+					moveback = 4;
+				} else {
+
+					console.log("Pad", "NewlineType", "SoE");
+
+					newLatex = existing + " \\begin{cases} \\\\ \\end{cases}";
+					// move cursor to first line (because it is a new block)
+					moveback = 2;
+				}
+			}
+
+			// we clear the input first, because moveback doesn't work when replacing the input
+			internalAddToInput("", 0, true, true);
+			// add the new latex to the empty input, use moveback
+			internalAddToInput(newLatex, moveback, true, false);
+
+			if($("#clear-textfield").hasClass("verify-hidden")){
+				$("#clear-textfield").removeClass("verify-hidden");
+				$("#verify-camera-button").addClass("verify-hidden");
+			}
+		}
+
+		function appVerify() {
+
+			var topic = "";
+			if(SYSTEPS.stepsRes) {
+				var topic = SYSTEPS.stepsRes.topic;
+			}
+
+			var verify = $("#verify-input").mathquill("latex");
+			
+				//AndroidFunction.verify(verify, topic);
+			
+			
+		}
+
+		function verificationResult(res) {
+
+			$('.nl-answerCaption').hide();
+
+			if(typeof(res) === "undefined" || res === null) {
+				return;
+			}
+
+			if (res.correct){
+				$('.nl-answerCaption.nl-greenText').eq(0).show();
+			} else if (res.partiallyCorrect){
+				$('.nl-answerCaption.nl-goldText.below span').eq(0).text(res.userMessage);
+				$('.nl-answerCaption.nl-goldText').eq(0).show();
+				$('.nl-answerCaption.nl-goldText').eq(1).show();
+			} else {
+				$('.nl-answerCaption.nl-redText').eq(0).show();
+			}
+		}
+
+		function scrollIntoView(element) {
+			var el = $(element);
+			var elOffset = el.offset().top;
+			var elHeight = el.height();
+			var windowHeight = $(window).height();
+			var offset;
+
+			if (elHeight < windowHeight) {
+			  offset = elOffset - ((windowHeight / 2) - (elHeight / 2));
+			}
+			else {
+			  offset = elOffset;
+			}
+			var time = 200;
+			$('html, body').scrollTop(offset);
+		}
+
+		function calculateTextfieldSize(){
+			var mathquillSize = 0;
+			$("#verify-input").children().each(function() {
+				if(!$(this).hasClass("textarea")){
+					if($(this).outerWidth() == 0 || $(this).outerWidth() == "0px"){
+						mathquillSize += $(this).get(0).offsetWidth;
+					}
+					else{
+						mathquillSize += parseInt($(this).outerWidth());
+					}
+				}
+			});
+
+			var curWidth = $("#verify-input").width() - 10;
+			if(mathquillSize > curWidth){
+				$("#verify-input").width(mathquillSize+100);
+				$("#TextfieldSubContainer").scrollLeft(1000);
+			}
+			if (mathquillSize == 0){
+				$("#verify-input").css("width", "");
+				$("#TextfieldSubContainer").scrollLeft(0);
+			}
+
+            var hei = $("#verify-input").height();
+            $("#EnterText").css({lineheight: hei, height: hei});
+
+            if($("#verify-input").mathquill('latex') === "") {
+                $("#EnterText").show();
+            } else {
+                $("#EnterText").hide();
+            }
+		}
+
+		$(document).ready(function(){
+			//fetchSolutionData();
+			// Parse JSON response and store it in a variable
+			var data = {{ json_data | tojson }};
+			SYSTEPS.stepsRes = data;
+			const spanElement = document.getElementById('mathquillQueryInput');
+			
+
+			// Check if the element exists
+			if (spanElement) {
+				// Add text inside the span element
+
+                const mfe = new MathfieldElement();
+                mfe.mathVirtualKeyboardPolicy = "manual";
+                mfe.value =  data.dym.inputEquation;
+				spanElement.style.fontSize = '32px'; // Change the font size as needed
+    			spanElement.style.fontWeight = 'bold'; 
+                spanElement.appendChild(mfe);
+			}
+			readStepsResponse();
+			createSteps(data);
+			document.getElementsByClassName('slItem')[1].click();
+
+			$("body").on("click", ".mathquill-input", function (event) {
+				event.preventDefault();
+			});
+
+
+			$("#related .new_solution_box_title").on("click", function() {
+				$("#related").toggleClass("collapsed");
+				$("#related").find(".mathquill-embedded-latex").mathquill("redraw");
+			});
+
+			
+				//AndroidFunction.stepsReady();
+			
+			
+
+		});
+
+		function isUserLoggedIn() {
+			//TODO: check usage and logic of this
+			return false;
+		}
+		
+
+
+		</script>
+	</body>
+</html>

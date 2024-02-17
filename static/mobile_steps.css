@@ -1,0 +1,502 @@
+
+	
+	@font-face {
+	    font-family:"Ubuntu";
+	    src: url("font/ubuntu-l.ttf");
+	    font-weight: 100;
+	    font-style: normal;
+	}
+	
+	@font-face {
+	    font-family:"Ubuntu";
+	    src: url("font/ubuntu-b.ttf");
+	    font-weight: bold;
+	    font-style: normal;
+	}
+	
+	@font-face {
+	    font-family:"Ubuntu";
+	    src: url("font/ubuntu.ttf");
+	    font-weight: normal;
+	    font-style: normal;
+	}
+
+.solution_box{
+  background-color: #c6c1b9;
+  color: #707070;
+  line-height: 16px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  vertical-align: middle;
+  margin: 20px;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+
+.solution_step_definition_main {
+	font-size: 16px;
+	margin-top: -4px;
+	margin-right:  -5px;
+	border: 4px solid #F8F8F8;
+	border-top: none;
+	-webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+	background-color: #F8F8F8;
+}
+
+.solution_step_definition {
+	color:  #234f4f;
+	margin-bottom:  6px;
+	margin-top:  4px;
+	margin-left: 2px;
+	cursor: pointer;
+}
+
+.solution_step_definition_text {
+	color: black;
+	border: 1px solid #ccc;
+	-webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+	background-color: #FFFFFF;
+	padding-left:  12px;
+}
+
+.solution_step_definition_text>span{
+	margin-bottom: 3px;
+}
+
+
+.showButtonText, .hideButtonText {
+	color:  #234f4f;
+  	font-family: 'Ubuntu', sans-serif;
+  	font-size: 12px;
+  	font-style: italic;
+  	float: right;
+  	margin-top: 2px;
+  	margin-right: -4px;
+  	cursor: pointer;
+}
+
+.solution_outside_box{
+	margin-top:  10px;
+	cursor: text;
+	border: 1px solid #ccc;
+}
+
+.solution_inside_box{
+	cursor: pointer;
+	border: 2px solid #EEEEEE;
+	background-color: #EEEEEE;
+}
+
+.solution_step_title, .solution_step_explanation, .solution_step_rule, .solution_step_result, .solution_explanation_before_after  {
+/* 	font-size: 17px;
+	line-height: 10px;
+	border-color: #ccc; */
+	padding-top: 5px;
+	padding-bottom: 5px;
+/* 	-webkit-border-radius: 6px;
+	   -moz-border-radius: 6px;
+	        border-radius: 6px; */
+}
+
+.solution_step_book {
+	font-size: 15.5px;
+	line-height: 20px;
+	border-color: #ccc;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.katex-display > .katex > .katex-html {
+	text-align: left;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+.solution_step_book > img {
+	display:block;
+	max-width: 600px;
+	max-height: 600px;
+}
+
+.table {
+	display: table;
+	border-collapse: collapse;
+	box-sizing: border-box;
+	border-color: grey;
+	border: 0.125rem solid #dde0e3;
+}
+
+.table td, .table th {
+	font-weight: 400;
+	vertical-align: top;
+	text-align: center;
+	border: 0.125rem solid #dde0e3;
+	padding: 12px;
+}
+
+.table tbody tr:nth-of-type(odd) {
+	background-color: #f0f1f2;
+}
+
+.solution_title_container_highest {
+	border-radius: inherit;
+	min-height: 37px;
+	padding-top: 6px;
+	background-color: #fff;
+	padding-left: 6px;
+}
+
+.solution_title_container  {
+	border-radius: inherit;
+	color: #ff000a;
+	background-color: white;
+	min-height: 20px;
+	padding-left: 3px;
+	padding-top: 3px;
+	padding-bottom: 3px;
+}
+
+.solution_step_result{
+	color: black;
+}
+
+.solution_title_container_highest .solution_step_title{
+	color: #ff000a;
+}
+
+.solution_step_list{
+	list-style: none;
+	margin-bottom: 10px;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-top: 0px;
+	cursor: text;
+}
+
+.solution_step_list_item{
+	margin-top: 5px;
+	color: #888;
+}
+
+.solution_step_explanation, .solution_step_rule_text, .solution_step_title{
+	margin-left: 3px;	
+}
+
+.solution_step_rule_text{
+	min-width: 1px;
+}
+
+
+.stepsHr{
+	padding: 0px;
+  	width:96%;
+	margin-bottom: 5px;
+	margin-left: 5px;
+	border-top-width: 0.6px;
+}
+
+
+.solution_steps_text{
+	color: #f40000;
+	margin-bottom: 30px;
+	margin-top: 10px;
+	font-size: 32px;
+}
+
+
+.locked-step,
+.showStepsButton, 
+.hideStepsButton {
+	margin-left: 10px;
+	margin-right: 4px;
+	margin-top: 2px;
+	float: right;
+	cursor: pointer;
+}
+
+.showStepsButton{
+	content:url(/public/img/show_more.png);
+}
+
+.hideStepsButton{
+	content:url(/public/img/show_less.png);
+}
+
+
+.solution_info_icon{
+	height: 20px;
+	margin-left: 3px;
+	margin-right: -3px;
+	cursor: pointer;
+}
+
+.solution_list_div{
+	border: 1px solid #ccc;
+	background-color: white;
+	-webkit-border-radius: 6px;
+	   -moz-border-radius: 6px;
+	        border-radius: 6px;
+	margin-left: 1px;
+	margin-right: 1px;
+}
+
+.tableMatrix{
+	cell-padding: 1px;
+	border-spacing: 0;
+	border-collapse: collapse;
+}
+
+.tableMatrix td, .tableMatrix tr{
+	border:1px solid black;
+}
+
+
+.tableMatrix td{
+	padding: 3px;
+	text-align: center;
+	min-width: 130px;
+}
+
+.onlyEnglish{
+	color: #e02342;
+	margin-bottom: 20px;
+	margin-top: 10px;
+}
+
+
+/*#canvasZoom{
+	background-color: white;
+	float: right;
+	position: absolute;
+	border: 1px solid #ccc;
+	-webkit-border-radius: 3px;
+     -moz-border-radius: 3px;
+          border-radius: 3px;
+}
+
+.canvasZoomButton{
+	padding: 1px;
+	cursor: pointer;
+}*/
+
+#sy_graph{
+	height: 650px; 
+	width: 650px;
+	cursor: default;
+}
+
+#solution_graph{
+	height: 615px; 
+	width: 615px;
+	cursor: default;
+}
+
+.dym, .viewLargerPlot {
+	
+	font-size: 17px;
+}
+
+#solution_page .dym {
+	margin-top: -10px;
+	margin-bottom: 20px;
+	width: 652px;
+}
+
+.dym a, .viewLargerPlot {
+	text-decoration: none;
+    color: #4f4f4f;
+}
+
+	
+.dymRight .dymQuery{
+	color: rgba(60, 143, 142, 1.0);
+	font-weight: bold;
+}
+
+.dymRight .dymText{
+	color: rgba(60, 143, 142, 1.0);
+}
+		
+
+
+.plotText {
+	color: #234f4f;
+	padding-top: 8px;
+	padding-bottom: 4px;
+	background-color: #fff;
+	padding-left: 10px;
+	font-size: 17px;
+	line-height: 10px;
+	border-color: #ccc;
+	-webkit-border-radius: 6px;
+	-moz-border-radius: 6px;
+	border-radius: 6px;
+}
+
+#Plot {
+  margin-top: -20px;
+  padding-bottom: 20px;
+  margin-left: 20px
+}
+#Plot .plot-container {
+  background-color: #fff;
+  color: #707070;
+  font-size: 20px;
+  line-height: 16px;
+  border: 1px solid #ccc;
+  text-align: left;
+  padding: 1px 0;
+  -webkit-border-radius: 6px;
+     -moz-border-radius: 6px;
+          border-radius: 6px;
+}
+
+
+#steps-container h2 {
+  font-size: 14px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+}
+
+
+.show-hide-button, .show-hide-button:hover  {
+  float: right;
+  margin-right: 10px;
+  display: block;
+  font-style: italic;
+  font-family: Ubuntu, sans-serif;
+  font-size: 13px;
+  color: #E02342;
+  cursor: pointer;
+  text-decoration: none;  
+}
+
+.show-more-related{
+	float: right;
+    margin-right: 10px;
+    margin-top: 5px;
+    font-style: italic;
+    font-size: 13px;
+    color: #E02342;
+    cursor: pointer;
+}
+
+.syscrollable  {
+	display: block;
+	position: relative;
+	overflow-x: scroll;
+	overflow-y: hidden;
+}
+
+#practice_page .syscrollable  {
+	overflow-x: hidden;
+}
+    
+.solution_title_container .syscrollable {
+	margin-top: 10px;
+}  
+
+
+.solution-practice-link{
+	/* float: right; */
+	margin-right: 15px;
+	margin-left: 5px;
+}
+
+
+.show-hide-steps-div {
+    float: right;
+	visibility: hidden;
+}
+
+.settingsTitle {
+    font-size: 14px;
+    border: 1px solid #ccc;
+    margin-right: 6px;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.settingsTitle img {
+    margin-bottom: 3px;
+}
+
+.show-hide-steps-div:hover .nl-stepSettingDD{
+	display: block;
+    width: 140px;
+    margin-left: -132px;
+    margin-top: -30px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    margin-right: 6px;
+    padding: 5px;
+    border-radius: 6px;
+}
+
+.show-hide-steps-div hr {
+    margin: 0px 0px;
+}
+
+.nl-stepSettingDD .setting {
+    margin-left: 10px;
+}
+
+.nl-stepSettingDD .setting.selected:before {
+    content: '✓ ';
+    margin-left: -12px;
+}
+
+#multipleOptions + .solution_step_title {
+    margin-top: 10px;
+}
+
+.show-hide-steps-div + .solution_step_title {
+    margin-top: 31px;
+}
+
+.nl-favorite-msg.warning {
+	color: #7A8503;
+} 
+
+.nl-favorite-button {
+	padding: 5px;
+	display: table;
+	margin: 5px auto;
+	color: black;
+	border-radius: 4px;
+	
+	background-color: #ddd;
+	background: -webkit-linear-gradient(#eee, #ccc);
+	background: -o-linear-gradient(#eee, #ccc);
+	background: -moz-linear-gradient(#eee, #ccc);
+	background: linear-gradient(#eee, #ccc);
+}
+
+.abmsg {
+    font-size: 18px;
+    padding: 30px;
+}
+
+#verify-section {
+	min-height: 44px;
+	margin-top: 10px;
+}
+
+#verify-input {
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+#verify-section-template {
+	display: none;
+}

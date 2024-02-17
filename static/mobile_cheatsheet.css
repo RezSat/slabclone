@@ -1,0 +1,90 @@
+
+@font-face {
+	    font-family:"Ubuntu";
+	    src: url("font/ubuntu.ttf");
+	}
+
+
+body, html { 
+	padding: 0; 
+	margin: 0;
+}
+
+.mathquill-embedded-latex .selectable{
+            display: none;
+        }
+
+#maincontent, h2, #maincontent>div {
+	display: block;
+}
+
+#maincontent>div {
+	margin: 15px;
+}
+
+.twocolumns>div>span, .threecolumns>div>span, .twocolumns2>div>span,
+.twocolumns>div>a, .threecolumns>div>a, .twocolumns2>div>a,
+.twocolumns>div>div, .threecolumns>div>div, .twocolumns2>div>div {
+	text-align:left;
+    padding: 20px;
+	white-space: nowrap;
+	font-size: 15px;
+	display: block;
+}
+
+.retain_table.twocolumns>div>span, .retain_table.threecolumns>div>span, .retain_table.twocolumns2>div>span,
+.retain_table.twocolumns>div>a, .retain_table.threecolumns>div>a, .retain_table.twocolumns2>div>a,
+.retain_table.twocolumns>div>div, .retain_table.threecolumns>div>div, .retain_table.twocolumns2>div>div {
+	display: inline;
+}
+
+.retain_table>div>span,
+.retain_table>div>a,
+.retain_table>div>div {
+	display: inline!important;
+	padding: 10px!important;
+	justify-content: space-between;
+}
+
+.retain_table>div.table_row {
+	display: flex;
+}
+
+.retain_table>div.table_row>span, .retain_table>div.table_row>a, .retain_table>div.table_row>div {
+	flex: 1;
+}
+
+.retain_table.align_right>div.table_row>span {
+	text-align: right;
+}
+
+.white_box{
+	background-color: #fff;
+	color: #707070;
+	vertical-align: middle;
+	overflow-x: hidden;
+}
+
+.white_box a{
+	color: #333;
+}
+
+h2{
+	font-family: 'Ubuntu', sans-serif;
+	font-style: normal;
+	font-weight: lighter;
+	color: #234f4f;
+	padding-left: 10px;
+	padding-top: 20px;
+	
+	margin-top: 20px;
+}
+
+h2:not(:first-child) {
+	border-top: solid #f4f2f5 30px;
+}
+
+h2{
+	font-size: 15px;
+	font-weight: bold;
+}
