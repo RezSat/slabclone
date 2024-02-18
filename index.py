@@ -20,5 +20,8 @@ def get_solution():
 
 @app.route('/')
 def home():
-    return render_template('index.html')
-
+    user_agent = request.headers.get('User-Agent', '')
+    if 'Mobile' in user_agent or 'Android' in user_agent or 'iPhone' in user_agent:
+        return render_template('index_mobile.html')
+    else:
+        return render_template('index.html')
